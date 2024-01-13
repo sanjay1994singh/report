@@ -32,6 +32,10 @@ def download_report(request):
     reporter = request.GET.get('reporter', '')
     description = request.GET.get('description', '')
     file = request.GET.get('file', '')
+    if reporter:
+        reporter = 'रिपोर्ट : ' + str(reporter)
+    else:
+        reporter = ''
     context = {
         'title': title,
         'city': city,
