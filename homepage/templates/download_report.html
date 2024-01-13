@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+
+{% block title %}Download Report{% endblock %}
+
+{% block css %}
+<style>
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(to right, #a6c0fe, #f68084);
+        }
+
+        .container {
+            width: 500px;
+            border: 1px solid #ccc;
+            padding: 20px;
+        }
+
+        .container p {
+            font-size: 1em;
+            text-align: justify;
+        }
+
+        .container p:first-child {
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+        .my_para{
+            font-family: 'Tiro Devanagari Hindi', serif;
+            text-align: justify;
+            text-justify: inter-word;
+            justify-content: space-evenly;
+        }
+
+</style>
+{% endblock css %}
+
+
+{% block content %}
+<div class="container-fluid text-center">
+    <div class="container mt-5 bg-light" id="contentToConvert">
+        <p id="r_title">{{title}}</p>
+        <img class="img-fluid mb-3" src="{{file}}">
+        <p>रिपोर्ट : {{reporter}}</p>
+        <p style="text-align: justify" class="my_para">
+            <span><b>{{city}} - </b></span> {{description}}
+        </p>
+    </div>
+    <button onclick="downloadImage()">Download</button>
+</div>
+
+{% endblock %}
+
+{% block js %}
+<script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+<script>
+        function downloadImage() {
+            const container = document.getElementById('contentToConvert');
+
+            html2canvas(container).then(canvas => {
+                const dataURL = canvas.toDataURL('image/png');
+
+                const link = document.createElement('a');
+                link.href = dataURL;
+                link.download = 'downloaded_image.png';
+
+                document.body.appendChild(link);
+                link.click();
+
+                document.body.removeChild(link);
+            });
+        }
+</script>
+
+{% endblock js %}

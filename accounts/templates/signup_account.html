@@ -1,0 +1,120 @@
+{% extends 'base.html' %}
+
+{% block title %}create report{% endblock %}
+
+{% block css %}
+<style>
+         body {
+          background: linear-gradient(to right, #a6c0fe, #f68084);
+        }
+         .signup-form {
+          max-width: 400px;
+          margin: 40px auto;
+          background-color: #fff;
+          padding: 20px;
+          border-radius: 10px;
+          box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .small-swal {
+          max-width: 400px !important;
+          max-height: 300px !important;
+        }
+</style>
+{% endblock css %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-6 mx-auto">
+            <div class="signup-form shadow">
+                <h2 class="text-center mb-4">Registration User</h2>
+                <form id="myForm">{% csrf_token %}
+                    <input type="hidden" name="user_type" id="user_type" value="reporter">
+                    <div class="mb-3">
+                        <label for="Mobile" class="form-label">Mobile</label>
+                        <input type="text" class="form-control numbers-only" name="Mobile" id="Mobile" placeholder="Enter your mobile number" minlength="10" maxlength="10">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="Password" class="form-label">New Password</label>
+                        <input type="password" class="form-control" name="Password" id="Password" placeholder="Enter your password" maxlength="16">
+                    </div>
+                    <button type="submit" id="signup-btn" class="mb-3 btn btn-primary w-100">Sign Up</button>
+                    <a href="/accounts/login-user/">Login Account?</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
+{% block js %}
+<script>
+        $(document).ready(function () {
+            $('#Mobile').on('input', function () {
+                var inputValue = $(this).val().replace(/\s/g, '');
+                $(this).val(inputValue);
+            });
+
+            $('.numbers-only').on('input', function () {
+                this.value = this.value.replace(/[^0-9]/g, '');
+            });
+        });
+        function showSuccessAlert(){
+            Swal.fire({
+                icon: 'success',
+                title: 'Success!',
+                text: 'You have successfully Registered.',
+                confirmButtonColor: '#28a745',
+                confirmButtonText: 'OK',
+                customClass: {
+                  popup: 'small-swal' // Custom class for smaller modal
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Redirect to the Login Url
+                    window.location.href = '/accounts/login-user/';
+                }
+            });
+        }
+
+        function ShowErrorAlert(){
+            Swal.fire({
+                icon: 'error', // Set the icon to 'error' for an error message
+                title: 'Error!',
+                text: 'There was an error. Please try again.',
+                confirmButtonColor: '#dc3545',
+                confirmButtonText: 'OK',
+                customClass: {
+                    popup: 'small-swal'
+                }
+            })
+        }
+
+</script>
+
+<script>
+        $('#myForm').submit(function (e) {
+            e.preventDefault();
+            var formData = $(this).serialize();
+
+            $.ajax({
+                type: 'POST',
+                url: '/accounts/signup-user/',
+                data: formData,
+                success: function (response) {
+                    console.log(response.status)
+                    if (response.status == 1){
+                        showSuccessAlert()
+                    }else{
+                        ShowErrorAlert()
+                    }
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            });
+        });
+</script>
+{% endblock js %}
