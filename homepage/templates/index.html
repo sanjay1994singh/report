@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block title %}create report{% endblock %}
+
+{% block css %}
+<style>
+         body {
+          background: linear-gradient(to right, #a6c0fe, #f68084);
+        }
+         .report_form {
+            border-radius: 15px; /* Adjust the value to change the curvature */
+            overflow: hidden; /* Ensures the corners are rounded even with a background color */
+        }
+        .service-card{
+            border-radius:10px
+        }
+</style>
+{% endblock css %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row mx-auto" id="service_div">
+
+    </div>
+</div>
+{% endblock %}
+
+
+{% block js %}
+
+    <script>
+        $(document).ready(function(){
+            $.ajax({
+                url: '/get-services/',
+                type: 'GET',
+               success: function (response) {
+                    console.log(response);
+                    var service = response.service;
+                    var appendHtml = '';
+
+                    $.each(service, function(index, item){
+                        appendHtml += `<div class="col-lg-3 bg-light service-card shadow text-center">
+                                          <img src="${item.img}" alt="" class="img-fluid p-3">
+                                          <p>${item.name}</p>
+                                          <p>${item.desc}</p>
+                                          <button type="button" class="btn btn-primary mb-2" onclick="buy_service(${item.id})">${item.price}</button>
+                                      </div>`;
+                    });
+                    $('#service_div').append(appendHtml);
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            });
+        });
+
+        function buy_service(price){
+            console.log(price)
+        }
+    </script>
+{% endblock js %}

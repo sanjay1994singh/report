@@ -74,20 +74,19 @@
                 }
               }).then((result) => {
                 if (result.isConfirmed) {
-                    // Redirect to the Home Url
                     window.location.href = '/';
                 }
               });
         }
         function ShowErrorAlert(){
             Swal.fire({
-                icon: 'error', // Set the icon to 'error' for an error message
+                icon: 'error',
                 title: 'Error!',
                 text: 'There was an error during login. Please try again.',
-                confirmButtonColor: '#dc3545', // Set the color to red for error
+                confirmButtonColor: '#dc3545',
                 confirmButtonText: 'OK',
                 customClass: {
-                    popup: 'small-swal' // Custom class for smaller modal
+                    popup: 'small-swal'
                 }
             })
         }
