@@ -24,16 +24,16 @@
                 <label for="Title" class="form-label text-white">Title</label>
                 <input type="text" class="form-control" id="Title" aria-describedby="emailHelp"
                        name="Title"
-                       value="मेरा प्रिय विद्यालय - एक शिक्षा संस्थान जो ज्ञान, साहित्य, और नैतिकता में बच्चों को समृद्धि की दिशा में प्रवृत्त करता है">
+                       value="">
             </div>
             <div class="mb-3">
                 <label for="City" class="form-label text-white">City</label>
                 <input type="text" class="form-control" id="City" aria-describedby="emailHelp"
                        name="City"
-                       value="समय चक्र टाइम्स : मथुरा ,">
+                       value="">
             </div>
             <div class="mb-3">
-                <label for="Reporter" class="form-label text-white">Reporter</label>
+                <label for="Reporter" class="form-label text-white">Name</label>
                 <input type="text" class="form-control" id="Reporter" aria-describedby="emailHelp"
                        name="Reporter"
                        value="">
@@ -76,14 +76,11 @@
             $('#myForm').submit(function (e) {
                 e.preventDefault();
                 var formData = $(this).serialize();
-
                 $.ajax({
                     type: 'POST',
-                    url: '/',
+                    url: '/article/',
                     data: formData,
                     success: function (response) {
-
-                        // Open new tab with download_report.html and pass context data
                         var newTab = window.open('/download_report/?title=' + response.title +
                             '&description=' + response.description +
                             '&file=' + response.file + '&city=' + response.city +
@@ -91,7 +88,6 @@
                             '_blank');
                     },
                     error: function (error) {
-                        // Handle any errors here
                         console.log(error);
                     }
                 });

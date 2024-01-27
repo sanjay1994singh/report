@@ -34,6 +34,7 @@ def signup_user(request):
     if request.method == 'POST':
         form = request.POST
         mobile = form.get('Mobile')
+        email = form.get('email')
         password = form.get('Password')
         user_type = form.get('user_type')
 
@@ -44,13 +45,15 @@ def signup_user(request):
         try:
             user = CustomUser.objects.create_user(username=mobile,
                                                   mobile=mobile,
+                                                  email=email,
                                                   password=password,
                                                   user_type=user_type,
                                                   )
             if user:
                 status = 1
         except Exception as e:
-            print(e)
+            print(e, '====e====')
+
         context = {
             'status': status,
         }
@@ -61,3 +64,19 @@ def signup_user(request):
 def logout_user(request):
     logout(request)
     return redirect('/')
+
+
+def term_condition(request):
+    return render(request, 'term_condition.html')
+
+
+def shipping_delivery(request):
+    return render(request, 'shipping_delivery.html')
+
+
+def privacy_policy(request):
+    return render(request, 'privacy_policy.html')
+
+
+def cancellation_refund(request):
+    return render(request, 'cancellation.html')

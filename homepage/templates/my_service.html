@@ -15,7 +15,6 @@
             border-radius:10px
         }
 
-
 </style>
 {% endblock css %}
 
@@ -27,7 +26,7 @@
             <img src="{{service.img.url}}" alt="" class="img-fluid p-3">
             <p>{{ service.name|title }}</p>
             <p>{{ service.desc|slice:":113" }}</p>
-            <button type="button" class="btn btn-primary mb-2" onclick="buy_service({{service.id}})">Buy Now</button>
+            <button type="button" class="btn btn-primary mb-2" onclick="create_article()">Create Article</button>
         </div>
         {% endfor %}
     </div>
@@ -35,10 +34,9 @@
 {% endblock %}
 
 {% block js %}
-
 <script>
-        function buy_service(service_id){
-            window.location.href = '/buy_service_detail/'+service_id+'/';
-        }
+    function create_article(){
+        window.location.href = '/article/';
+    }
 </script>
 {% endblock js %}

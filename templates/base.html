@@ -31,17 +31,37 @@
                     <a class="nav-link" href="/">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">About</a>
+                    <a class="nav-link" href="/my_service/">My Service</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Contact</a>
+                    <a class="nav-link" href="#">About</a>
                 </li>
+
                 <li class="nav-item">
                     {% if request.user.is_authenticated %}
                     <a class="nav-link" href="/accounts/logout-user/">Logout</a>
                     {% else %}
                     <a class="nav-link" href="/accounts/login-user/">Login</a>
                     {% endif %}
+                </li>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                       data-bs-toggle="dropdown" aria-expanded="false">
+                        Privacy and Policy
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="/accounts/term-condition/">Term and condition</a></li>
+                        <li><a class="dropdown-item" href="/accounts/shipping-delivery/">Shipping And Delivery</a></li>
+                        <li><a class="dropdown-item" href="/accounts/privacy-policy/">Privacy and Policy</a></li>
+                        <li><a class="dropdown-item" href="/accounts/cancellation-refund/">Cancellation and Refund</a></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Contact Us</a>
                 </li>
             </ul>
         </div>
