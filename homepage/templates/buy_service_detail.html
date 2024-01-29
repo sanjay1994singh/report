@@ -188,6 +188,7 @@
         </div>
 
         <div class="col-md-4 summary">
+            <input type="text" value="{{payment}}">
             <div><h5><b>Summary</b></h5></div>
             <hr>
             <div class="row">
@@ -249,7 +250,7 @@
 
                     var options =
                     {
-                          "key": "rzp_live_Ap1PwlFBhamMza",
+                          "key": "rzp_live_VaICyiYmqlKWUK",
                           "amount": price * 100,
                           "currency": "INR",
                           "name": "Shri Infotech Solution",
@@ -306,7 +307,6 @@
                       alert(response.error.metadata.payment_id);
                     });
 
-
                     document.getElementById('rzp-button1').onclick = function (e) {
                       rzp1.open();
                       e.preventDefault();
@@ -314,13 +314,8 @@
                     }
                 },
             });
-
-
         }
     }
-
-
-
 </script>
 </body>
 </html>

@@ -128,5 +128,5 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'accounts.CustomUser'
 
-RAZOR_KEY_ID = 'rzp_live_Ap1PwlFBhamMza'
-RAZOR_KEY_SECRET = 'ow916Sgk2V2lSXoomeAM0Xf6'
+RAZOR_KEY_ID = 'rzp_live_VaICyiYmqlKWUK'
+RAZOR_KEY_SECRET = '6l3E7oy2wd2B8aHhShlptKje'
