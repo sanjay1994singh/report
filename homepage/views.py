@@ -184,7 +184,7 @@ def payment_success(request):
         quantity = form.get('quantity', None)
         payment_status = form.get('payment_status', None)
         months = int(form.get('month', 0))
-
+        print(form, '========================================form')
         status = 0
         msg = 'Service not bought.'
         future_date = calculate_future_date(months)

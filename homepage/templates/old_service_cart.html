@@ -163,7 +163,6 @@
           max-width: 400px !important;
           max-height: 300px !important;
         }
-
     </style>
 </head>
 <body>
@@ -232,7 +231,6 @@
             },
             success: function(response){
                 console.log(response.data)
-
                 var html = '';
                 html += '<option class="text-muted" value="">Select Month</option>';
                 $.each(response.data, function(index, item){
@@ -243,11 +241,109 @@
         });
     });
 
+    function get_price_service(){
+        var month_id = $('#select_month').val();
+        if (month_id){
+            $.ajax({
+                url: '/get_service_price/',
+                data:{
+                    'month_id': month_id,
+                    'service_id': '{{service_data.id}}',
+                },
+                success: function(response){
+                    console.log(response.data)
+                    var month = response.data.month
+                    var price = response.data.price
+                    $('.service_price').html(price)
+
+                    var options =
+                    {
+                          "key": "rzp_live_VaICyiYmqlKWUK",
+                          "amount": price * 100,
+                          "currency": "INR",
+                          "name": "Shri Infotech Solution",
+                          "description": "It Service Solution",
+                          "image": "https://example.com/your_logo",
+                          "order_id": '{{order_id}}',
+                          "handler": function (response) {
+                                console.log(response);
+                                var myObject = {
+
+                                  'razorpay_order_id': response.razorpay_order_id,
+                                  'razorpay_payment_id': response.razorpay_payment_id,
+                                  'razorpay_signature':response.razorpay_signature,
+                                  'service_id':'{{service_data.id}}',
+                                  'price':price * 100,
+                                  'discount':50,
+                                  'totalprice':price * 100,
+                                  'quantity':'1',
+                                  'payment_status':'success',
+                                  'month':month,
+
+                                }
+                                var url = '/payment_success/';
+                                $.ajax({
+                                    url: url,
+                                    method: 'GET',
+                                    data: myObject,
+                                    success: function (response) {
+                                        var responseData = response;
+                                        if(responseData.status == 1){
+                                          window.location.href = '/my-service/';
+                                        }else{
+                                            Swal.fire({
+                                                icon: 'error',
+                                                title: 'Error!',
+                                                text: response.msg,
+                                                confirmButtonColor: '#dc3545',
+                                                confirmButtonText: 'OK',
+                                                customClass: {
+                                                    popup: 'small-swal'
+                                                }
+                                            });
+                                        }
+                                    },
+                                    error: function (xhr, status, error) {
+                                        // Handle error here
+                                        console.log(error);
+                                    }
+                                });
+
+                          },
+                    };
+
+                    var rzp1 = new Razorpay(options);
+
+                    rzp1.on('payment.failed', function (response) {
+                      alert(response.error.code);
+                      alert(response.error.description);
+                      alert(response.error.source);
+                      alert(response.error.step);
+                      alert(response.error.reason);
+                      alert(response.error.metadata.order_id);
+                      alert(response.error.metadata.payment_id);
+                    });
+
+                    document.getElementById('rzp-button1').onclick = function (e) {
+                      rzp1.open();
+                      e.preventDefault();
+                      console.log(options)
+                    }
+                },
+            });
+        }
+    }
+
+    </script>
+
+
+    <script>
+
 var myObject = {
     'razorpay_order_id': '',
     'razorpay_payment_id': '',
     'razorpay_signature': '',
-    'service_id': '{{service_data.id}}',
+    'course_id': '{{service_data.id}}',
     'price': 0,
     'discount': 0,
     'totalprice': 0,
@@ -259,7 +355,7 @@ var myObject = {
 // Function to create a new Razorpay instance
 function createRazorpayInstance(orderId) {
     return new Razorpay({
-        "key": "rzp_live_VaICyiYmqlKWUK",
+        "key": ""rzp_live_VaICyiYmqlKWUK"",
         "amount": myObject.totalprice * 100,
         "currency": "INR",
         "name": "Shri Infotech Solution",
@@ -267,11 +363,9 @@ function createRazorpayInstance(orderId) {
         "image": "https://example.com/your_logo",
         "order_id": orderId,
         "handler": function (response) {
-
             myObject.razorpay_order_id = response.razorpay_order_id;
             myObject.razorpay_payment_id = response.razorpay_payment_id;
             myObject.razorpay_signature = response.razorpay_signature;
-            console.log(myObject,'====================myObject')
             var url = '/payment_success/';
             $.ajax({
                 url: url,
@@ -280,8 +374,8 @@ function createRazorpayInstance(orderId) {
                 success: function (response) {
                     var responseData = response;
                     if (responseData.status == 1) {
-                        // Redirect to '/my_service/' on successful payment
-                        window.location.href = '/my_service/';
+                        // Redirect to '/my-courses/' on successful payment
+                        window.location.href = '/my-courses/';
                     }
                 },
                 error: function (xhr, status, error) {
@@ -322,13 +416,12 @@ function get_price_service() {
             url: '/get_service_price/',
             data: {
                 'month_id': month_id,
-                'service_id': '{{service_data.id}}',
+                'service_data': '{{service_data.id}}',
             },
             beforeSend: function () {
                 $('#loader').removeClass('d-none');
             },
             success: function (response) {
-                console.log(response, '==========response')
                 var month = response.data.month;
                 var price = response.data.price;
                 var order_id = response.order_id;
@@ -338,8 +431,7 @@ function get_price_service() {
                 $('#total_price').html(price);
 
                 // Update 'price' in the myObject
-                myObject.price = parseInt(price);
-                myObject.totalprice = parseInt(price);
+                myObject.price = price;
                 myObject.month = month;
 
                 // Create a new Razorpay instance with the updated 'order_id'
@@ -351,8 +443,8 @@ function get_price_service() {
         });
     }
 }
-
 </script>
+
 
 </body>
 </html>
