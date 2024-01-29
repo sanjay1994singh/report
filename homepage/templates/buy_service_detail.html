@@ -245,6 +245,7 @@
                 },
                 success: function(response){
                     console.log(response.data)
+                    var month = response.data.month
                     var price = response.data.price
                     $('.service_price').html(price)
 
@@ -267,12 +268,12 @@
                                   'razorpay_payment_id': response.razorpay_payment_id,
                                   'razorpay_signature':response.razorpay_signature,
                                   'service_id':'{{service_data.id}}',
-                                  'price':'{{pay_amt}}',
+                                  'price':price * 100,
                                   'discount':50,
-                                  'totalprice':'{{pay_amt}}',
+                                  'totalprice':price * 100',
                                   'quantity':'1',
                                   'payment_status':'success',
-                                  'month':'{{month}}',
+                                  'month':month,
 
                                 }
                                 var url = '/payment_success/';

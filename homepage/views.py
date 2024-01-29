@@ -101,6 +101,7 @@ def get_service_price(request):
 
         data_dict = {}
         price_data = ServicePrice.objects.get(id=month_id)
+        data_dict['month'] = price_data.month
         data_dict['price'] = price_data.price
 
         client = razorpay.Client(auth=(settings.RAZOR_KEY_ID, settings.RAZOR_KEY_SECRET))
@@ -200,9 +201,3 @@ def payment_success(request):
             'status': status
         }
         return JsonResponse(context)
-
-# def my-service(request):
-#     course_purchased = ServicePurchased.objects.filter(user_id=user_id, payment_status='success').values_list('course', flat=True)
-#     my_pur_cours = Course.objects.filter(id__in=course_purchased)
-#     context = {'my_course': my_pur_cours, 'home_banner': home_banner}
-#     return render(request, 'my_course.html', context)
