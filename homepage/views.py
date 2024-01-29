@@ -186,6 +186,7 @@ def payment_success(request):
         months = int(form.get('month', 0))
 
         status = 0
+        msg = 'Service not bought.'
         future_date = calculate_future_date(months)
         try:
 
@@ -195,11 +196,13 @@ def payment_success(request):
                 payment_status=payment_status, end_date=future_date, month=months)
             if service_obj:
                 status = 1
+                msg = 'Service buy successfully.'
 
         except Exception as e:
             print(e, 'error in payment success function')
-
+            msg = str(e)
         context = {
-            'status': status
+            'status': status,
+            'msg': msg
         }
         return JsonResponse(context)
