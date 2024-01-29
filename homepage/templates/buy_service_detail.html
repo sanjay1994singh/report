@@ -8,6 +8,7 @@
     <title>Document</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10.16.0/dist/sweetalert2.min.css">
     <style>
         body{
             background: #ddd;
@@ -157,6 +158,11 @@
             background-position-x: 95%;
             background-position-y: center;
         }
+
+        .small-swal {
+          max-width: 400px !important;
+          max-height: 300px !important;
+        }
     </style>
 </head>
 <body>
@@ -215,6 +221,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.16.0/dist/sweetalert2.all.min.js"></script>
 <script>
     $(document).ready(function(){
         $.ajax({
@@ -285,6 +292,17 @@
                                         var responseData = response;
                                         if(responseData.status == 1){
                                           window.location.href = '/my-service/';
+                                        }else{
+                                            Swal.fire({
+                                                icon: 'error',
+                                                title: 'Error!',
+                                                text: ,
+                                                confirmButtonColor: '#dc3545',
+                                                confirmButtonText: 'OK',
+                                                customClass: {
+                                                    popup: 'small-swal'
+                                                }
+                                            })
                                         }
                                     },
                                     error: function (xhr, status, error) {
