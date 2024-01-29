@@ -188,12 +188,14 @@ def payment_success(request):
         status = 0
         future_date = calculate_future_date(months)
         try:
+
             service_obj = ServicePurchased.objects.filter(user_id=user_id, razorpay_order_id=razorpay_order_id).update(
                 service_id=service_id, price=price, discount=discount, total_price=totalprice, qty=quantity,
                 razorpay_payment_id=razorpay_payment_id, razorpay_signature=razorpay_signature,
                 payment_status=payment_status, end_date=future_date, month=months)
             if service_obj:
                 status = 1
+
         except Exception as e:
             print(e, 'error in payment success function')
 
