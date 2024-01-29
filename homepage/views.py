@@ -17,7 +17,9 @@ def homepage(request):
 
 @login_required(login_url='/accounts/login-user/')
 def my_service(request):
-    service = ServiceMaster.objects.all()
+    user_id = request.session.get('user_id')
+    purchased_service = ServicePurchased.objects.filter(user_id=user_id, payment_status='success')
+    service = purchased_service
     return render(request, 'my_service.html', {'service': service})
 
 

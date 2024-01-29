@@ -23,9 +23,9 @@
     <div class="row mx-auto" id="service_div">
         {% for service in service %}
         <div class="col-lg-3 bg-light service-card shadow text-center">
-            <img src="{{service.img.url}}" alt="" class="img-fluid p-3">
-            <p>{{ service.name|title }}</p>
-            <p>{{ service.desc|slice:":113" }}</p>
+            <img src="{{service.service.img.url}}" alt="" class="img-fluid p-3">
+            <p>{{ service.service.name|title }}</p>
+            <p>{{ service.service.desc|slice:":113" }}</p>
             <button type="button" class="btn btn-primary mb-2" onclick="create_article()">Create Article</button>
         </div>
         {% endfor %}
