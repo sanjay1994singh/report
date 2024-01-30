@@ -37,8 +37,7 @@
 
 
 {% block content %}
-<div class="container-fluid text-center">
-    <div class="container mt-5 bg-light" id="contentToConvert">
+    <div class="col-lg-6 p-2 bg-light border mx-auto" id="contentToConvert">
         <p id="r_title">{{title}}</p>
         <img class="img-fluid mb-3" src="{{file}}">
         <p>{{reporter}}</p>
@@ -47,8 +46,6 @@
         </p>
     </div>
     <button onclick="downloadImage()">Download</button>
-</div>
-
 {% endblock %}
 
 {% block js %}
