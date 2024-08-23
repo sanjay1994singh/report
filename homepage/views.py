@@ -12,7 +12,7 @@ from datetime import datetime, timedelta
 
 def homepage(request):
     service = ServiceMaster.objects.all()
-    return render(request, 'index.html', {'service': service})
+    return render(request, 'homepage.html', {'service': service})
 
 
 @login_required(login_url='/accounts/login-user/')
