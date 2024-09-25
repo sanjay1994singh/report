@@ -9,10 +9,37 @@ from purchased_service.models import ServicePurchased
 from services.models import ServiceMaster, ServicePrice
 from datetime import datetime, timedelta
 
+from accounts.models import CustomUser
+
 
 def homepage(request):
-    service = ServiceMaster.objects.all()
-    return render(request, 'homepage.html', {'service': service})
+    if request.method == 'POST':
+        form = request.POST
+        full_name = form.get('full_name')
+        email = form.get('email')
+        mobile = form.get('mobile')
+        password = form.get('password')
+        user = CustomUser.objects.create_user(full_name=full_name,
+                                              username=mobile,
+                                              email=email,
+                                              mobile=mobile,
+                                              password=password,
+                                              )
+        if user:
+            status = 'success'
+            msg = 'Registration successfully.'
+        else:
+            status = 'failed!'
+            msg = 'Registration failed?'
+
+        context = {
+            'status': status,
+            'msg': msg,
+        }
+        return JsonResponse(context)
+    else:
+        service = ServiceMaster.objects.all()
+        return render(request, 'homepage.html', {'service': service})
 
 
 @login_required(login_url='/accounts/login-user/')
