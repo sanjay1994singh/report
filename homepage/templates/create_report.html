@@ -33,10 +33,16 @@
                        value="">
             </div>
             <div class="mb-3">
-                <label for="Reporter" class="form-label text-white">Name</label>
-                <input type="text" class="form-control" id="Reporter" aria-describedby="emailHelp"
-                       name="Reporter"
+                <label for="reporter" class="form-label text-white">Reporter Name</label>
+                <input type="text" class="form-control" id="reporter" aria-describedby="emailHelp"
+                       name="reporter"
                        value="">
+            </div>
+            <div class="mb-3">
+                <label for="channel" class="form-label text-white">Channel Name</label>
+                <input type="text" class="form-control" id="channel" aria-describedby="emailHelp"
+                       name="channel"
+                       value="समय चक्र टाइम्स ">
             </div>
             <div class="mb-3">
                 <label for="Description" class="form-label text-white">Description</label>
@@ -84,7 +90,8 @@
                         var newTab = window.open('/download_report/?title=' + response.title +
                             '&description=' + response.description +
                             '&file=' + response.file + '&city=' + response.city +
-                            '&reporter=' + response.reporter,
+                            '&reporter=' + response.reporter +
+                            '&channel=' + response.channel,
                             '_blank');
                     },
                     error: function (error) {

@@ -4,69 +4,143 @@
 
 {% block css %}
 <style>
-        body {
-            font-family: 'Georgia', serif;
-            background: linear-gradient(to right, #a6c0fe, #f68084);
-        }
+    @import url('https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Hindi&display=swap');
 
-        .container {
-            width: 500px;
-            border: 1px solid #ccc;
-            padding: 20px;
-        }
+    body {
+        font-family: 'Tiro Devanagari Hindi', serif;
+    }
 
-        .container p {
-            font-size: 1em;
-            text-align: justify;
-        }
+    .newspaper-container {
+        max-width: 900px;
+        background: #fff;
+        padding: 20px;
+        margin: auto;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        border-radius: 5px;
+        overflow: hidden;
+    }
 
-        .container p:first-child {
-            font-weight: bold;
-            font-size: 1.2em;
-        }
+    .news-header {
+        font-size: 2.8em;
+        font-weight: bold;
+        margin-bottom: 10px;
+        text-align: center;
+    }
 
-        .my_para{
-            font-family: 'Tiro Devanagari Hindi', serif;
-            text-align: justify;
-            text-justify: inter-word;
-            justify-content: space-evenly;
-        }
+    /* Layout: Image (25%) | Text (75%) */
+    .content-wrapper {
+        display: flex;
+        gap: 20px;
+        align-items: flex-start;
+    }
 
+    /* Left column: Image (25%) */
+    .left-column {
+        flex: 25%;
+        text-align: center;
+    }
+
+    .news-image {
+        width: 100%;
+        height: auto;
+        border-radius: 5px;
+    }
+
+    /* Right column: Text (75%) */
+    .right-column {
+        flex: 75%;
+        text-align: justify;
+        font-size: 1.1em;
+        line-height: 1.6;
+        padding: 10px;
+    }
+
+    /* Dynamic Column Layout for Text */
+    .description-text {
+        column-width: 200px; /* Adjust column width dynamically */
+        column-gap: 20px;
+        text-align: justify;
+        overflow-wrap: break-word;
+        font-size: 1.1em; /* Default font size */
+        line-height: 1.6;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .content-wrapper {
+            flex-direction: column;
+        }
+        .left-column, .right-column {
+            max-width: 100%;
+        }
+        .description-text {
+            column-width: 150px; /* Adjust column width for smaller screens */
+            font-size: 1em; /* Slightly smaller font */
+        }
+    }
+
+    .download-btn {
+        display: block;
+        width: 200px;
+        padding: 10px;
+        margin: 20px auto;
+        text-align: center;
+        background-color: #ff4f4f;
+        color: white;
+        border: none;
+        font-size: 1em;
+        cursor: pointer;
+        border-radius: 5px;
+    }
+
+    .download-btn:hover {
+        background-color: #d84343;
+    }
 </style>
 {% endblock css %}
 
-
 {% block content %}
-    <div class="col-lg-6 p-2 bg-light border mx-auto" id="contentToConvert">
-        <p id="r_title">{{title}}</p>
-        <img class="img-fluid mb-3" src="{{file}}">
-        <p>{{reporter}}</p>
-        <p style="text-align: justify" class="my_para">
-            <span><b>{{city}}</b></span> {{description}}
-        </p>
+<div class="newspaper-container" id="contentToConvert">
+    <div class="news-header">{{ title }}</div>
+    <div class="left-column">
+            <img class="news-image" src="{{ file }}" alt="News Image">
+        </div>
+    <!-- Layout: Image (25%) | Text (75%) -->
+    <div class="content-wrapper">
+        <!-- Left column: Image (25%) -->
+
+        <!-- Right column: Text (75%) -->
+        <div class="right-column">
+            <div class="description-text">
+               <b>{{ channel }} </b>{{ city }} । {{ description }}
+            </div>
+        </div>
     </div>
-    <button onclick="downloadImage()">Download</button>
+</div>
+
+<button class="download-btn" onclick="downloadImage()">Download</button>
 {% endblock %}
 
 {% block js %}
 <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
 <script>
-        function downloadImage() {
-            const container = document.getElementById('contentToConvert');
+    function downloadImage() {
+        const container = document.getElementById('contentToConvert');
 
-            html2canvas(container).then(canvas => {
-                const dataURL = canvas.toDataURL('image/png');
+        html2canvas(container, {
+            allowTaint: true,
+            useCORS: true
+        }).then(canvas => {
+            const dataURL = canvas.toDataURL('image/png');
 
-                const link = document.createElement('a');
-                link.href = dataURL;
-                link.download = 'downloaded_image.png';
+            const link = document.createElement('a');
+            link.href = dataURL;
+            link.download = 'newspaper_report.png';
 
-                document.body.appendChild(link);
-                link.click();
-
-                document.body.removeChild(link);
-            });
-        }
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        });
+    }
 </script>
-
 {% endblock js %}

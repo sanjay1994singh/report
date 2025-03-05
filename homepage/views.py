@@ -42,7 +42,7 @@ def homepage(request):
         return render(request, 'homepage.html', {'service': service})
 
 
-@login_required(login_url='/accounts/login-user/')
+# @login_required(login_url='/accounts/login-user/')
 def my_service(request):
     user_id = request.session.get('user_id')
     purchased_service = ServicePurchased.objects.filter(user_id=user_id, payment_status='success')
@@ -151,19 +151,21 @@ def get_service_price(request):
         return JsonResponse(context)
 
 
-@login_required(login_url='/accounts/login-user/')
+# @login_required(login_url='/accounts/login-user/')
 def create_article(request):
     if request.method == 'POST':
         form = request.POST
         title = form.get('Title')
         city = form.get('City')
-        reporter = form.get('Reporter')
+        channel = form.get('channel')
+        reporter = form.get('reporter')
         description = form.get('Description')
         file = form.get('img_pre_iv')
         context = {
             'title': title,
             'city': city,
             'reporter': reporter,
+            'channel': channel,
             'description': description,
             'file': file,
         }
@@ -177,10 +179,11 @@ def download_report(request):
     title = request.GET.get('title', '')
     city = request.GET.get('city', '')
     reporter = request.GET.get('reporter', '')
+    channel = request.GET.get('channel', '')
     description = request.GET.get('description', '')
     file = request.GET.get('file', '')
     if reporter:
-        reporter = 'रिपोर्ट : ' + str(reporter)
+        reporter = str(reporter)
     else:
         reporter = ''
     context = {
@@ -189,6 +192,7 @@ def download_report(request):
         'description': description,
         'file': file,
         'reporter': reporter,
+        'channel': channel,
     }
     return render(request, 'download_report.html', context)
 
@@ -213,7 +217,6 @@ def payment_success(request):
         quantity = form.get('quantity', None)
         payment_status = form.get('payment_status', None)
         months = int(form.get('month', 0))
-        print(form, '========================================form')
         status = 0
         msg = 'Service not bought.'
         future_date = calculate_future_date(months)
