@@ -175,12 +175,13 @@ def create_article(request):
 
 def download_report(request):
     if request.method == "POST":
-        title = request.GET.get('title', '')
-        city = request.GET.get('city', '')
-        reporter = request.GET.get('reporter', '')
-        channel = request.GET.get('channel', '')
-        description = request.GET.get('description', '')
-        file = request.GET.get('file', '')
+        form = request.POST
+        title = form.get('title', '')
+        city = form.get('city', '')
+        reporter = form.get('reporter', '')
+        channel = form.get('channel', '')
+        description = form.get('description', '')
+        file = form.get('file', '')
         if reporter:
             reporter = str(reporter)
         else:
