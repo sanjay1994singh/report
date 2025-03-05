@@ -174,25 +174,26 @@ def create_article(request):
 
 
 def download_report(request):
-    title = request.GET.get('title', '')
-    city = request.GET.get('city', '')
-    reporter = request.GET.get('reporter', '')
-    channel = request.GET.get('channel', '')
-    description = request.GET.get('description', '')
-    file = request.GET.get('file', '')
-    if reporter:
-        reporter = str(reporter)
-    else:
-        reporter = ''
-    context = {
-        'title': title,
-        'city': city,
-        'description': description,
-        'file': file,
-        'reporter': reporter,
-        'channel': channel,
-    }
-    return render(request, 'download_report.html', context)
+    if request.method == "POST":
+        title = request.GET.get('title', '')
+        city = request.GET.get('city', '')
+        reporter = request.GET.get('reporter', '')
+        channel = request.GET.get('channel', '')
+        description = request.GET.get('description', '')
+        file = request.GET.get('file', '')
+        if reporter:
+            reporter = str(reporter)
+        else:
+            reporter = ''
+        context = {
+            'title': title,
+            'city': city,
+            'description': description,
+            'file': file,
+            'reporter': reporter,
+            'channel': channel,
+        }
+        return render(request, 'download_report.html', context)
 
 
 def calculate_future_date(months):
