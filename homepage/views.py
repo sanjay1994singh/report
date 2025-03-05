@@ -38,8 +38,7 @@ def homepage(request):
         }
         return JsonResponse(context)
     else:
-        service = ServiceMaster.objects.all()
-        return render(request, 'homepage.html', {'service': service})
+        return render(request, 'create_report.html')
 
 
 # @login_required(login_url='/accounts/login-user/')
