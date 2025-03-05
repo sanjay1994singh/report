@@ -150,7 +150,7 @@ def get_service_price(request):
         return JsonResponse(context)
 
 
-# @login_required(login_url='/accounts/login-user/')
+
 def create_article(request):
     if request.method == 'POST':
         form = request.POST
@@ -173,7 +173,6 @@ def create_article(request):
     return render(request, 'create_report.html')
 
 
-@login_required(login_url='/accounts/login-user/')
 def download_report(request):
     title = request.GET.get('title', '')
     city = request.GET.get('city', '')
